@@ -40,9 +40,6 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# Enable 256 colors
-[[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
-
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
@@ -119,5 +116,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-eval "$(register-python-argcomplete csp_ci)"
-alias dockerlogin='docker login swf1.artifactory.cm.volvocars.biz:5029'
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.cabal/bin" ] ; then
+    PATH="$HOME/.cabal/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
